@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menghitung Nilai Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6">
+
+    <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-xl font-bold mb-4">Menghitung Nilai Mahasiswa</h2>
+        <input type="text" id="name" class="border p-2 w-full mb-2" placeholder="Nama">
+        <input type="text" id="nim" class="border p-2 w-full mb-2" placeholder="NIM">
+        <input type="text" id="course" class="border p-2 w-full mb-2" placeholder="Mata Kuliah">
+
+        <select id="sks" class="border p-2 w-full mb-2">
+            <option value="2">2 SKS</option>
+
+            <option value="3">3 SKS</option>
+        </select>
+
+        <input type="number" id="attendance" class="border p-2 w-full mb-2" placeholder="Kehadiran (0-14 atau 0-21)">
+
+        <input type="number" id="assignment" class="border p-2 w-full mb-2" placeholder="Nilai Tugas (0-100)">
+
+        <input type="number" id="midterm" class="border p-2 w-full mb-2" placeholder="Nilai UTS (0-100)">
+        <input type="number" id="final" class="border p-2 w-full mb-2" placeholder="Nilai UAS (0-100)">
+
+        <button onclick="calculateGrade()" class="bg-red-500 text-white p-2 rounded w-full">Hitung Nilai</button>
+        <p id="gradeResult" class="mt-4"></p>
+
+    </div>
+
+
+    <script>
+        function calculateGrade() {
+            const name = document.getElementById('name').value;
+            const nim = document.getElementById('nim').value;
+
+            const course = document.getElementById('course').value;
+
+            const sks = parseInt(document.getElementById('sks').value);
+
+            const attendance = parseFloat(document.getElementById('attendance').value);
+
+            const assignment = parseFloat(document.getElementById('assignment').value);
+            const midterm = parseFloat(document.getElementById('midterm').value);
+            const final = parseFloat(document.getElementById('final').value);
+
+            const maxAttendance = sks === 3 ? 21 : 14;
+
+
+            if (attendance > maxAttendance) {
+                document.getElementById('gradeResult').innerText = `Kehadiran tidak boleh lebih dari ${maxAttendance} untuk ${sks} SKS.`;
+                return;
+
+            }
+
+
+            if (attendance === 0 || assignment === 0 || midterm === 0 || final === 0) {
+                document.getElementById('gradeResult').innerText = 'Grade: E';
+
+                return;
+            }
+
+
+            if (assignment > 100 || midterm > 100 || final > 100) {
+
+                document.getElementById('gradeResult').innerText = 'Nilai tugas, UTS, dan UAS tidak boleh lebih dari 100.';
+
+                return;
+
+            }
+
+
+            const attendanceScore = (attendance / maxAttendance) * 10;
+            const assignmentScore = assignment * 0.2;
+
+            const midtermScore = midterm * 0.3;
+
+            const finalScore = final * 0.4;
+
+            const totalScore = attendanceScore + assignmentScore + midtermScore + finalScore;
+
+
+            let grade;
+
+            if (totalScore > 80) {
+
+                grade = 'A';
+            } else if (totalScore >= 70) {
+
+                grade = 'B';
+
+            } else if (totalScore >= 60) {
+
+                grade = 'C';
+            } else if (totalScore >= 50) {
+
+                grade = 'D';
+
+            } else {
+                grade = 'E';
+
+            }
+
+            document.getElementById('gradeResult').innerText = `Nama: ${name}, NIM: ${nim}, Mata Kuliah: ${course}, Nilai Angka: ${totalScore.toFixed(2)}, Grade: ${grade}`;
+
+        }
+    </script>
+</body>
+</html>

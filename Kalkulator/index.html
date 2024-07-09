@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-xl font-bold mb-4">Kalkulator</h2>
+        <input type="number" id="num1" class="border p-2 w-full mb-2" placeholder="Angka pertama" required>
+        <select id="operator" class="border p-2 w-full mb-2">
+            <option value="+">Tambah (+)</option>
+            <option value="-">Kurang (-)</option>
+            <option value="*">Kali (*)</option>
+            <option value="/">Bagi (/)</option>
+            <option value="%">Modulus (%)</option>
+        </select>
+        <input type="number" id="num2" class="border p-2 w-full mb-2" placeholder="Angka kedua" required>
+        <button onclick="calculate()" class="bg-blue-500 text-white p-2 rounded w-full">Hitung</button>
+        <p id="result" class="mt-4"></p>
+    </div>
+
+    <script>
+        function calculate() {
+            const num1 = document.getElementById('num1').value;
+            const num2 = document.getElementById('num2').value;
+            const operator = document.getElementById('operator').value;
+
+            if (num1 === '' || num2 === '') {
+                document.getElementById('result').innerText = 'Nilai tidak boleh kosong';
+                return;
+            }
+
+            const num1Float = parseFloat(num1);
+            const num2Float = parseFloat(num2);
+            let result;
+
+            switch (operator) {
+                case '+':
+                    result = (num1Float + num2Float).toFixed(1);
+                    break;
+                case '-':
+                    result = (num1Float - num2Float).toFixed(1);
+                    break;
+                case '*':
+                    result = (num1Float * num2Float).toFixed(1);
+                    break;
+                case '/':
+                    result = (num1Float / num2Float).toFixed(1);
+                    break;
+                case '%':
+                    result = (num1Float % num2Float).toFixed(1);
+                    break;
+                default:
+                    result = 'Operator tidak valid';
+            }
+
+            document.getElementById('result').innerText = 'Hasil: ' + result;
+        }
+    </script>
+</body>
+</html>
